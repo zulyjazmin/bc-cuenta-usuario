@@ -1,10 +1,11 @@
 import express, {Express} from 'express';
 import { config } from 'dotenv';
-import PostSesionHandler from './handlers/PostSesionHandler';
 import PostUserHandler from './handlers/PostUserHandler';
 import GetUserIdHandler from './handlers/GetUserIdHandler';
-import GetMessageHandler from './handlers/GetMessageHandler';
 import DeletedUserIdHandler from './handlers/DeletedUserIdHandler';
+import MessageController from './controllers/MessageController';
+import SessionController from './controllers/SessionController';
+import UserController from './controllers/UserController';
 
 config({
     path: '.env'
@@ -12,11 +13,18 @@ config({
 
 const app: Express = express();
 
-app.post('/session',   PostSesionHandler);
-app.post('/user',      PostUserHandler);
-app.get('/user/:id',   GetUserIdHandler);
-app.delete('/user/:id',DeletedUserIdHandler);
-app.get('/message',    GetMessageHandler);
+//UserController
+app.post('/user',      UserController.createUser);
+app.get('/user/:id',   UserController.getById);
+app.delete('/user/:id',UserController.deleteUser);
+
+
+//SessionController
+app.post('/session',  SessionController.createSession);
+
+
+//MessageController
+app.get('/message',  MessageController.getMessage );
 
 
 app.listen(process.env.PORT, () =>
