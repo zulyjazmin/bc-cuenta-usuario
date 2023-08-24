@@ -1,13 +1,19 @@
 import { RequestHandler } from "express";
 import { DeletedUser, UserBase } from "../interfaces/dto-data-transfer-object";
-import { UserWithToken } from "../../bc-cuenta-usuario/src/interfaces/dto-data-transfer-object";
- 
+import  UserWithToken  from "../interfaces/dto-data-transfer-object/UserWithToken";
+import UserService from "../services/UserService";
+
+
+interface UserParams
+{
+  id: string;
+}
 
 interface IUserController
  {
-      createUser: RequestHandler<null, UserBase>;
-      getById: RequestHandler<null, UserWithToken>;
-      deleteUser: RequestHandler<null, DeletedUser>;   
+      createUser: RequestHandler<null, UserBase, UserBase>;
+      getById: RequestHandler<UserParams, UserWithToken>;
+      deleteUser: RequestHandler<UserParams, DeletedUser>;   
 }
 
 
@@ -15,35 +21,22 @@ const UserController: IUserController =
 {
     createUser(req, res)
     {
-      res.json({
-        createdAt: new Date(),
-        id: '1',
-        username: 'sledesma'
-      });
+      UserService.createUser(req.body);
+      res.json(req.body);
     },
 
     getById(req, res)
     {
-          res.json(
-        {
-            createdAt: new Date(),
-            currentToken: {
-                expiresOn: new Date(),
-                userId: '1',
-                token: ""
-            },
-            username: 'sledesma',
-            id: "1"
-        }
-     );
+          res.json(UserService.getById(req.params.id));
     },
 
     deleteUser(req, res)
     {
+        UserService.deleteUserAndToken(req.params.id)
         res.json (
             {
-                deletedId: '1',
-                deletedUsername: 'sledesma'
+                deletedId: eq.params.id,
+                
                 
              } );
     }

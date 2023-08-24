@@ -1,10 +1,7 @@
 import express, {Express} from 'express';
 import { config } from 'dotenv';
-import PostUserHandler from './handlers/PostUserHandler';
-import GetUserIdHandler from './handlers/GetUserIdHandler';
-import DeletedUserIdHandler from './handlers/DeletedUserIdHandler';
 import MessageController from './controllers/MessageController';
-import SessionController from './controllers/SessionController';
+import TokenController from './controllers/TokenController';
 import UserController from './controllers/UserController';
 
 config({
@@ -13,6 +10,8 @@ config({
 
 const app: Express = express();
 
+app.use(express.json());
+
 //UserController
 app.post('/user',      UserController.createUser);
 app.get('/user/:id',   UserController.getById);
@@ -20,7 +19,7 @@ app.delete('/user/:id',UserController.deleteUser);
 
 
 //SessionController
-app.post('/session',  SessionController.createSession);
+app.post('/token',  TokenController.createToken);
 
 
 //MessageController
