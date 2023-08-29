@@ -19,7 +19,7 @@ interface IUserController {
 const UserController: IUserController =
 {
   async createUser(req, res) {
-    await UserService.createUser(req.body);
+    await UserService.createUser(req.body.id, req.body.username);
     res.json(req.body);
   },
 

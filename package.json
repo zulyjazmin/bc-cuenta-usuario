@@ -84,8 +84,10 @@
   },
   "scripts": {
     "build": "npx tsc",
-    "dev": "node dist/index.js",
-    "start": "npm run build && npm run dev"
+    "exec": "node dist/index.js",
+    "start": "npm run build && npm run exec",
+    "test:build": "npx tsc --project tsconfig.test.json",
+    "test": "npx tsc --project tsconfig.test.json && node temp/index.js"
   },
   "keywords": [],
   "author": "",

@@ -4,7 +4,7 @@ import UserModel from "../models/UserModel";
 
 interface IUserService 
 {
-    createUser: (user: User) => Promise<void>;
+    createUser: (id: string, username: string) => Promise<void>;
     getById: (id: string) => Promise<User>;
     deleteUser: (id: string) => Promise<void>;
    
@@ -12,8 +12,12 @@ interface IUserService
 const UserService: IUserService =
 {
 
-    async createUser(user)  {
-      const result = await UserModel.insertMany([ user ]);
+    async createUser(id, username)  {
+      const result = await UserModel.insertMany([ {
+        id,
+        username,
+        createAt: new Date()
+      } ]);
 
       if (result.length == 0) 
 
@@ -23,17 +27,27 @@ const UserService: IUserService =
     },
     
     async getById(id) {
-        const founded = await UserModel.findOne({ id : id }).exec()
 
-        if (founded == null)
+        const user = await UserModel.findOne({ id : id }).exec()
+
+        if (user == null)
         throw new Error("Usuario no encontrado");
 
-        return founded as User;
+        if (user.username == undefined ||
+            user.id == undefined ||
+            user.createAt == undefined)
+            throw new Error("Usuario mal formateado");
+
+        return {
+            username: user.username,
+            id: user.id,
+            createAt: user.createAt
+        };
 
     },
 
     async deleteUser(id){
-        const result = await UserModel.deleteOne({ id:}).exec();
+        const result = await UserModel.deleteOne({ id: id}).exec();
 
         if (result.deletedCount == 0)
         throw new Error("Error al eliminar - No se borro nada");
