@@ -1,5 +1,5 @@
-import {Token, UserBase} from "../interfaces/dto-data-transfer-object";
-import Permission from "../interfaces/dto-data-transfer-object/Permission";
+import { Permission, Token } from "../interfaces";
+
 
 type XAccessTokenHeaderValue = string| string[] | undefined;
 
@@ -8,6 +8,7 @@ type XAccessTokenHeaderValue = string| string[] | undefined;
 interface ITokenService
 {
     generateToken: (userId: string) => Token;
+    getCurrentToken: (user: string) => Token;
     verifyToken: (token: XAccessTokenHeaderValue, permission: string) => boolean;
     _tokens: Token[];
     _permissions: Permission[]
@@ -30,6 +31,11 @@ const TokenService: ITokenService =
         { token: '1234', permission_name: 'obtener_mensaje'},
         { token: '5678', permission_name: 'obtener_mensaje'}
     ],
+
+    getCurrentToken(userId){
+      return this._tokens[0];
+
+    },
 
     generateToken(userId)
     {

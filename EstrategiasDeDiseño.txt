@@ -1,0 +1,13 @@
+- BACKEND PYME: EN EXPRESS (de chica a mediana empresa):se usa la estructura por capas:
+/routes
+/controllers
+/models
+
+
+- BACKEND MEDIO Y GRANDE:(ya usamos una arquitectura orientada a servicios):
+/routes
+/controllers
+/services
+/models
+
+

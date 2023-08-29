@@ -2,7 +2,7 @@ export default interface Token
 {
     token: string; 
     userId: string; 
-    expiresOn: TokenExpires;
+    expiresOn: Date;
 }
 
 export type TokenExpires = Date|number|undefined;

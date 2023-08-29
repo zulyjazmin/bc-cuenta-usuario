@@ -1,10 +1,10 @@
 import {RequestHandler} from "express";
-import { Token, UserBase } from "../interfaces/dto-data-transfer-object";
 import TokenService from "../services/TokenService";
+import { Token, User } from "../interfaces";
 
 interface ITokenController
 {
-      createToken: RequestHandler<null, Token, UserBase>
+      createToken: RequestHandler<null, Token, User>
 }
 
 const TokenController: ITokenController =

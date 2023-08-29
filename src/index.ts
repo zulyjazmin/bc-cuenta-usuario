@@ -1,34 +1,34 @@
+//Imports y config globales
 import express, {Express} from 'express';
 import { config } from 'dotenv';
-import MessageController from './controllers/MessageController';
-import TokenController from './controllers/TokenController';
-import UserController from './controllers/UserController';
-
+import cors from 'cors';
+import {connect} from 'mongoose';
+import AppRouter from './routes';
 config({
     path: '.env'
 });
 
+
+// 2- Creacion de a App express
 const app: Express = express();
 
+
+// 3- use (configurar el request)
 app.use(express.json());
-
-//UserController
-app.post('/user',      UserController.createUser);
-app.get('/user/:id',   UserController.getById);
-app.delete('/user/:id',UserController.deleteUser);
+app.use(cors());
 
 
-//SessionController
-app.post('/token',  TokenController.createToken);
+// 4- Routers
+app.use(AppRouter);
 
-
-//MessageController
-app.get('/message',  MessageController.getMessage );
-
-
+// 5- Startup & Listen
+connect(process.env.MONGO_URL as string)
+.then(() =>
 app.listen(process.env.PORT, () =>
 console.log(`Servidor ejecutandose en http://localhost:${process.env.PORT}`)
-);
+)
+
+)
 /* EN JS SERIA: require('dotenv').config({
     path: 'env'
 }) */
